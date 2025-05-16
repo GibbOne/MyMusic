@@ -1,0 +1,37 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:MyMusic.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyMusic"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="MyMusic.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/Gscore.png"
+        Title="MyMusic">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+    
+    <StackPanel>
+        <Rectangle Fill="Gray" Height="150"/>
+        <Canvas Margin="20" Height="400" Width="1200">
+            <Image Margin="20" Height="400" Width="1200" Source="{Binding CurrentImage}"/>
+            <Image Margin="20" Height="80" Width="80" Canvas.Left="275" Canvas.Top="{Binding NotePosition}" Source="/Assets/note.png" />
+            <Button Foreground="Green" FontSize="385" FontWeight="Bold" Canvas.Left="375" Canvas.Top="0" IsVisible="{Binding GuessedOk}" Click="Result_Click">Yes!</Button>
+            <Button Foreground="Red" FontSize="385" FontWeight="Bold" Canvas.Left="375" Canvas.Top="0" IsVisible="{Binding GuessedKo}" Click="Result_Click">No!</Button>
+        </Canvas>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Background="Gray" Height="200" Width="200" FontSize="85" HorizontalContentAlignment="Center" Click="Note_Click" Tag="{x:Static local:eNote.C}">Do</Button>
+            <Button Background="Gray" Height="200" Width="200" FontSize="85" HorizontalContentAlignment="Center" Click="Note_Click" Tag="{x:Static local:eNote.D}">Re</Button>
+            <Button Background="Gray" Height="200" Width="200" FontSize="85" HorizontalContentAlignment="Center" Click="Note_Click" Tag="{x:Static local:eNote.E}">Mi</Button>
+            <Button Background="Gray" Height="200" Width="200" FontSize="85" HorizontalContentAlignment="Center" Click="Note_Click" Tag="{x:Static local:eNote.F}">Fa</Button>
+            <Button Background="Gray" Height="200" Width="200" FontSize="85" HorizontalContentAlignment="Center" Click="Note_Click" Tag="{x:Static local:eNote.G}">Sol</Button>
+            <Button Background="Gray" Height="200" Width="200" FontSize="85" HorizontalContentAlignment="Center" Click="Note_Click" Tag="{x:Static local:eNote.A}">La</Button>
+            <Button Background="Gray" Height="200" Width="200" FontSize="85" HorizontalContentAlignment="Center" Click="Note_Click" Tag="{x:Static local:eNote.B}">Si</Button>
+        </StackPanel>
+    </StackPanel>
+</Window>
