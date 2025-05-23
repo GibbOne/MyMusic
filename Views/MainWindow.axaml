@@ -17,7 +17,11 @@
     </Design.DataContext>
     
     <StackPanel>
-        <Rectangle Fill="Gray" Height="150"/>
+        <Rectangle Fill="Gray" Height="150"/> 
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Height="150" FontSize="85" Text="{Binding CountDownInSeconds}"></TextBlock>
+            <TextBlock Height="150" FontSize="85" Text=" secondi"></TextBlock>
+        </StackPanel>
         <Canvas Margin="20" Height="400" Width="1200">
             <Image Margin="20" Height="400" Width="1200" Source="{Binding CurrentImage}"/>
             <Image Margin="20" Height="80" Width="80" Canvas.Left="275" Canvas.Top="{Binding NotePosition}" Source="/Assets/note.png" />

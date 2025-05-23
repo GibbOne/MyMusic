@@ -1,12 +1,17 @@
 ﻿using System;
 using Avalonia.Media.Imaging;
+using Avalonia.Threading;
 using LibVLCSharp.Shared;
 
 namespace MyMusic.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
+    private const int MAX_TIME_IN_SECONDS = 20;
+    
     private MediaPlayer mediaPlayer = new MediaPlayer(new LibVLC());
+
+    private DispatcherTimer tmrCountDown = new DispatcherTimer();
     
     private eClef clef;
     private eOctave octave;
@@ -14,11 +19,34 @@ public partial class MainWindowViewModel : ViewModelBase
     
     public MainWindowViewModel() : base()
     {
+        tmrCountDown.Interval = TimeSpan.FromSeconds(1);
+        tmrCountDown.Tick += tmrCountDown_Tick;  
+
+
         SetNextNote();
     }
 
+    private void tmrCountDown_Tick(object source, EventArgs args)
+    {
+        if (CountDownInSeconds > 0)
+        {
+            CountDownInSeconds--;
+        }
+        else
+        {
+            tmrCountDown.Stop();
+            GuessedOk = false;
+            GuessedKo = true;
+            
+            mediaPlayer.Play(new Media(new LibVLC(), "../../../Assets/no.wav"));
+        }
+    }
+    
     public void SetNextNote()
     {
+        countDown = MAX_TIME_IN_SECONDS;
+        tmrCountDown.Start();
+        
         GuessedOk = false;
         GuessedKo = false;
         
@@ -38,6 +66,18 @@ public partial class MainWindowViewModel : ViewModelBase
         }
     }
 
+    private int countDown = MAX_TIME_IN_SECONDS;
+
+    public int CountDownInSeconds
+    {
+        get => countDown;
+        set
+        {
+            countDown = value;
+            OnPropertyChanged();
+        }
+    }
+    
     private bool guessedOk = false;
 
     public bool GuessedOk
@@ -75,6 +115,8 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             mediaPlayer.Play(new Media(new LibVLC(), "../../../Assets/no.wav"));
         }
+        
+        tmrCountDown.Stop();
         
         return GuessedOk;
     }
